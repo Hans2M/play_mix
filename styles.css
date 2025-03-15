@@ -1,0 +1,164 @@
+/* Estilos generales */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    color: #fff;
+}
+
+
+/* Contenedor principal */
+
+.bienvenida-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    border: 2px solid #fff;
+}
+
+
+/* Estilos para el personaje */
+
+.personaje {
+    position: relative;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.personaje-imagen {
+    width: 150px;
+    height: auto;
+    border-radius: 50%;
+}
+
+
+/* Burbuja de chat */
+
+.burbuja-chat {
+    position: relative;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    display: none;
+    margin-left: 20px;
+    /* Espacio entre el personaje y la burbuja */
+}
+
+.burbuja-chat::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -10px;
+    border-width: 10px 10px 10px 0;
+    border-style: solid;
+    border-color: transparent #fff transparent transparent;
+    transform: translateY(-50%);
+}
+
+.burbuja-chat p {
+    color: #333;
+    margin: 0;
+    font-size: 16px;
+}
+
+
+/* Respuesta del usuario */
+
+.respuesta-usuario {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.respuesta-usuario button {
+    padding: 10px 20px;
+    background-color: #2575fc;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.respuesta-usuario button:hover {
+    background-color: #6a11cb;
+}
+
+
+/* Contenedor de preguntas */
+
+.preguntas-container {
+    margin-top: 20px;
+}
+
+.preguntas-container p {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.opciones-respuesta {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.opciones-respuesta button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.opciones-respuesta button:hover {
+    background-color: #218838;
+}
+
+
+/* Regalo sorpresa */
+
+.regalo-sorpresa {
+    margin-top: 20px;
+    color: #6a11cb;
+}
+
+.regalo-sorpresa img {
+    width: 100px;
+    height: auto;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+
+/* Contenedor del video */
+
+.video-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+video {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 10px;
+}

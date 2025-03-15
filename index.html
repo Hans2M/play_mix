@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mix_juego 🎊👾</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="bienvenida-container">
+        <div class="personaje">
+            <img src="img/minion_1.gif" alt="Personaje" class="personaje-imagen">
+            <div class="burbuja-chat" id="burbujaChat">
+                <p id="mensajePersonaje">Hola, ¿cómo estás? 😊</p>
+            </div>
+        </div>
+        <div class="respuesta-usuario" id="respuestaUsuario">
+            <button id="btnBien" onclick="responder('bien')">¡Estoy bien! 😊</button>
+            <button id="btnMal" onclick="responder('mal')">No tan bien...🥲</button>
+        </div>
+        <div class="preguntas-container" id="preguntasContainer" style="display: none;">
+            <p id="preguntaTexto"></p>
+            <div class="opciones-respuesta">
+                <button id="opcion1" onclick="verificarRespuesta(1)"></button>
+                <button id="opcion2" onclick="verificarRespuesta(2)"></button>
+            </div>
+        </div>
+        <div class="regalo-sorpresa" id="regaloSorpresa" style="display: none;">
+            <p>¡Felicidades! Has respondido correctamente 3 veces. Haz clic en el regalo para ver tu sorpresa 🎊:</p>
+            <img src="img/regalo.gif" alt="Regalo sorpresa" id="imagenRegalo" onclick="mostrarVideo()">
+        </div>
+        <div class="video-container" id="videoContainer" style="display: none;">
+            <video id="videoSorpresa" controls>
+                <source src="video/regalo.mp4" type="video/mp4">
+                Tu navegador no soporta la reproducción de video.
+            </video>
+        </div>
+    </div>
+
+    <!-- Audios para los efectos de sonido -->
+    <audio id="sonidoCorrecto" src="music/correcto.mp3"></audio>
+    <audio id="sonidoIncorrecto" src="music/incorrecto.mp3"></audio>
+    <audio id="sonidoRegalo" src="music/sorpresa.mp3"></audio>
+
+    <script>
+        // Diálogo inicial y preguntas
+        const dialogo = [
+            "Hola, ¿cómo estás? 😊",
+            "¡Qué bueno escuchar eso! Vamos a jugar un pequeño juego 👾.",
+            "Oh, lo siento mucho. ¿Te gustaría jugar un juego para animarte? 🥲"
+        ];
+
+        const preguntas = [{
+            pregunta: "¿Cuál es la capital de Francia? 🤔",
+            opciones: ["Madrid", "París"],
+            respuestaCorrecta: 2 // La segunda opción es correcta
+        }, {
+            pregunta: "¿Cuántos planetas hay en el sistema solar? 🤔",
+            opciones: ["9", "8"],
+            respuestaCorrecta: 2 // La segunda opción es correcta
+        }, {
+            pregunta: "¿Qué animal es el rey de la selva? 🤔",
+            opciones: ["Elefante", "León"],
+            respuestaCorrecta: 2 // La segunda opción es correcta
+        }];
+
+        let paso = 0; // Paso actual del diálogo
+        let preguntaActual = 0; // Índice de la pregunta actual
+        let respuestasCorrectas = 0; // Contador de respuestas correctas
+
+        // Función para mostrar el mensaje del personaje
+        function mostrarMensaje() {
+            const burbujaChat = document.getElementById('burbujaChat');
+            const mensajePersonaje = document.getElementById('mensajePersonaje');
+            mensajePersonaje.textContent = dialogo[paso];
+            burbujaChat.style.display = 'block';
+
+            // Avanza al siguiente paso del diálogo
+            paso++;
+        }
+
+        // Función para responder al personaje
+        function responder(respuesta) {
+            const respuestaUsuario = document.getElementById('respuestaUsuario');
+            respuestaUsuario.style.display = 'none'; // Oculta los botones de respuesta
+
+            if (respuesta === 'bien') {
+                dialogo[1] = "¡Qué bueno escuchar eso! Vamos a jugar un pequeño juego.😊";
+            } else {
+                dialogo[1] = "Oh, lo siento mucho. ¿Te gustaría jugar un juego para animarte?🥲";
+            }
+
+            // Muestra el siguiente mensaje del personaje
+            mostrarMensaje();
+
+            // Muestra las preguntas después de un breve retraso
+            setTimeout(() => {
+                mostrarPreguntas();
+            }, 3000); // 3 segundos
+        }
+
+        // Función para mostrar las preguntas
+        function mostrarPreguntas() {
+            const preguntasContainer = document.getElementById('preguntasContainer');
+            const preguntaTexto = document.getElementById('preguntaTexto');
+            const opcion1 = document.getElementById('opcion1');
+            const opcion2 = document.getElementById('opcion2');
+
+            preguntaTexto.textContent = preguntas[preguntaActual].pregunta;
+            opcion1.textContent = preguntas[preguntaActual].opciones[0];
+            opcion2.textContent = preguntas[preguntaActual].opciones[1];
+
+            preguntasContainer.style.display = 'block';
+        }
+
+        // Función para verificar la respuesta del usuario
+        function verificarRespuesta(opcionSeleccionada) {
+            const sonidoCorrecto = document.getElementById('sonidoCorrecto');
+            const sonidoIncorrecto = document.getElementById('sonidoIncorrecto');
+
+            if (opcionSeleccionada === preguntas[preguntaActual].respuestaCorrecta) {
+                respuestasCorrectas++;
+                sonidoCorrecto.play(); // Reproduce sonido de respuesta correcta
+                alert("¡Correcto! 🎊");
+            } else {
+                sonidoIncorrecto.play(); // Reproduce sonido de respuesta incorrecta
+                alert("Incorrecto 🥲. La respuesta correcta es: " + preguntas[preguntaActual].opciones[preguntas[preguntaActual].respuestaCorrecta - 1]);
+            }
+
+            // Avanza a la siguiente pregunta
+            preguntaActual++;
+
+            // Verifica si el usuario ha respondido correctamente 3 veces
+            if (respuestasCorrectas === 3) {
+                mostrarRegaloSorpresa();
+            } else if (preguntaActual < preguntas.length) {
+                mostrarPreguntas();
+            } else {
+                alert("¡Fin del juego! Gracias por participar.😎");
+            }
+        }
+
+        // Función para mostrar el regalo sorpresa
+        function mostrarRegaloSorpresa() {
+            const preguntasContainer = document.getElementById('preguntasContainer');
+            const regaloSorpresa = document.getElementById('regaloSorpresa');
+            const sonidoRegalo = document.getElementById('sonidoRegalo');
+
+            preguntasContainer.style.display = 'none';
+            regaloSorpresa.style.display = 'block';
+            sonidoRegalo.play(); // Reproduce sonido de regalo sorpresa
+        }
+
+        // Función para mostrar el video al hacer clic en el regalo
+        function mostrarVideo() {
+            const regaloSorpresa = document.getElementById('regaloSorpresa');
+            const videoContainer = document.getElementById('videoContainer');
+            const videoSorpresa = document.getElementById('videoSorpresa');
+
+            regaloSorpresa.style.display = 'none'; // Oculta el regalo
+            videoContainer.style.display = 'block'; // Muestra el video
+            videoSorpresa.play(); // Reproduce el video automáticamente
+        }
+
+        // Inicia la conversación
+        mostrarMensaje();
+    </script>
+</body>
+
+</html>
